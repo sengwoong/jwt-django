@@ -79,7 +79,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'HowWentParty.wsgi.application'
 
-
+REST_AUTH = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer'
+}
 
 LANGUAGE_CODE = 'ko-kr'
 

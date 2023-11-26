@@ -13,6 +13,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     def save(self, request):
         user = super().save(request)
         user.profile_image = self.data.get('profile_image')
+        user.user_id = self.data.get('user_id')
         user.name = self.data.get('name')
         user.user_nick_name = self.data.get('user_nick_name')
         user.user_classification = self.data.get('user_classification')

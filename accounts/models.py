@@ -5,7 +5,7 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-from .managers import UserManager
+from .managers import CustomUserManager
 
 # GENDER_CHOICES 상수
 GENDER_OPTIONS = [
@@ -54,7 +54,7 @@ class CustomUser(AbstractUser):
     username = models.CharField(max_length=150,  unique=True,null=True )
     user_id = models.CharField(max_length=255, unique=True, null=True)
     email = models.EmailField(_('email address'), unique=True)
-    objects = UserManager()
+    objects = CustomUserManager()
     profile_image = models.ImageField(upload_to=user_directory_path, default='static/images/default_gray.png')
     name = models.CharField(max_length=100, null=True)
     user_nick_name = models.CharField(max_length=150, unique=True)
@@ -64,6 +64,12 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = []
 
     def save(self, *args, **kwargs):
+        print("self")
+        print(self.__dict__)
+        print("kwargs")
+        print(kwargs)
+        print("args")
+        print(args)
         # user_nick_name이 없는 경우에만 설정
         if not self.user_nick_name:
             self.user_nick_name = f'user_{str(uuid.uuid4())[:8]}'  # 랜덤 값 생성
@@ -83,3 +89,5 @@ class CustomUser(AbstractUser):
         return data
 
  
+    def __str__(self):
+        return self.username or self.user_id or self.email
